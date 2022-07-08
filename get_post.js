@@ -1,9 +1,12 @@
 const client = require('node-fetch');
 var fs = require('fs');
-const data = require('./usernamedata/filtered_username_athlete.json');
-const error=require('./User_Post/Error_list.json')
-const lasttime = require('./User_Post/Lasttime.json');
-const abort=require('./User_Post/abort_list.json')
+
+const data = require('./usernamedata/filtered_username_athlete.json'); //選擇要抓的檔案集
+
+const error=require('./User_Post/Error_list.json') //非公開帳號的人會被放入Error_list
+const abort=require('./User_Post/abort_list.json') //會記錄每次API達到上限時正在抓的人物
+const lasttime = require('./User_Post/Lasttime.json');//紀錄終止的時候的資料 供下次API流量刷新時繼續抓取
+var peoplecount=84;//要抓的人物數量
 
 /*
 
@@ -22,8 +25,6 @@ const accest_token='EAAthJeNbSZBABAF0HMxZA5XF5ZA3xZAfcHSo01SQm0xgtuVYJ92tuZA2roq
 var i=lasttime.num;
 var lastcursor=lasttime.aftercursor;
 var lasttimedone=lasttime.DONE;
-
-var peoplecount=84;
 var limitreached=false;
 
 getinfo();
@@ -122,10 +123,3 @@ async function getinfo(){
             }
         }
     };
-
-function getRandom(min,max){
-    return Math.floor(Math.random()*(max-min+1))+min;
-};
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
